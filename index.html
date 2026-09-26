@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>MathJax3 dynamic test</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$'], ['\\(','\\)']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body><div id="root"></div>
+<script>
+// SPA-shaped: all content (incl. formulas) built at runtime, zero static TeX
+const root = document.getElementById('root');
+const h = document.createElement('h1');
+h.textContent = 'Dynamic formula page';
+root.appendChild(h);
+const p1 = document.createElement('p');
+p1.textContent = 'The famous mass energy equivalence ';
+const s1 = document.createElement('span');
+s1.textContent = '\\(E = mc^2\\)';
+p1.appendChild(s1); root.appendChild(p1);
+const p2 = document.createElement('p');
+const d1 = document.createElement('div');
+d1.textContent = '\\[\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}\\]';
+p2.appendChild(d1); root.appendChild(p2);
+window.addEventListener('load', () => {
+  const t = document.createElement('p');
+  t.textContent = 'Written after load: Gaussian integral above.';
+  root.appendChild(t);
+});
+</script>
+</body></html>
