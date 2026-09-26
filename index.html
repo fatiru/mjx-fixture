@@ -57,8 +57,21 @@ const p2 = document.createElement('p');
 const d1 = document.createElement('div');
 d1.textContent = '\\[\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}\\]';
 p2.appendChild(d1); root.appendChild(p2);
-window.addEventListener('load', () => {
-  const t = document.createElement('p');
+  // Realistic prose payload: rendered markdown must clear MIN_RENDER_MD (500)
+  // for the render to replace the static shell — a demo stub would be refused.
+  const PARAS = [
+    'This page exists to exercise a deterministic MathJax v3 rendering fixture. All of its content, including every formula, is constructed by JavaScript at runtime, so the statically fetched document carries no TeX source whatsoever.',
+    'The typesetting engine below is MathJax version 3 loaded from a public CDN. Two formulas are typeset dynamically: one inline expression in a paragraph, and one display equation in its own block. A consumer that only reads the static HTML sees an empty shell.',
+    'After rendering, the formulas exist as CHTML containers with no trace of the original LaTeX left in the DOM. Recovering the source TeX requires harvesting the MathJax runtime state before the snapshot is taken, which is exactly the behaviour under test here.',
+    'The remainder of this text simply provides enough body mass for the rendered result to clear the minimum-length gates of the extraction pipeline, ensuring the render is accepted over the static shell rather than rejected as a stub.'
+  ];
+  window.addEventListener('load', () => {
+    for (const t of PARAS) {
+      const p = document.createElement('p');
+      p.textContent = t;
+      root.appendChild(p);
+    }
+    const t = document.createElement('p');
   t.textContent = 'Written after load: Gaussian integral above.';
   root.appendChild(t);
 });
